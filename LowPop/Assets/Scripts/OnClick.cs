@@ -9,6 +9,5 @@ public class OnClick : MonoBehaviour {
     {
         pausePanel.gameObject.SetActive(true);
         Timer.Instance.Stop();
-        Debug.Log("CLICCATO");
     }
 }

@@ -8,6 +8,8 @@ public class GameManager : MonoBehaviour {
     [SerializeField] private List<Button> buttons;
     [SerializeField] private GameObject cross;
     [SerializeField] private GameObject check;
+    [SerializeField] private GameObject gameOver;
+    [SerializeField] private TextMeshProUGUI gameOverText;
 
     public static GameManager Instance;
 
@@ -31,7 +33,7 @@ public class GameManager : MonoBehaviour {
         selectedButtons = new List<int>();
         listOfNumbers = new List<int>();
         range = 20;
-        difficulty = 2;
+        difficulty = LevelManager.Instance.difficulty;
         doNotTouch = false;
         exclamationMarkActive = false;
 
@@ -53,12 +55,19 @@ public class GameManager : MonoBehaviour {
         }
 
         wrong = false;
-        numberOfButton = 3;
+        numberOfButton = LevelManager.Instance.numberOfHexagones;
         SelectButtons(numberOfButton);
 	}
 	
 	
 	void Update () {
+
+        if (Timer.Instance.IsStopped())
+        {
+            gameOverText.SetText("Your score is " + ScoreUI.Instance.GetScore() + " points.");
+            gameOver.gameObject.SetActive(true);
+        }
+
         if (!AllButtonsHaveBeenClicked())
             return;
 
@@ -66,10 +75,11 @@ public class GameManager : MonoBehaviour {
         if (!wrong)
         {
             check.gameObject.SetActive(true);
+            ScoreUI.Instance.IncrementScore(1);
         }
         wrong = false;
         StartCoroutine(Wait());
-	}
+    }
 
     private void SelectButtons(int howMuch)
     {

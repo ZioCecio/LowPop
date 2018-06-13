@@ -50,4 +50,9 @@ public class Timer : MonoBehaviour {
     {
         stop = false;
     }
+
+    public bool IsStopped()
+    {
+        return stop;
+    }
 }
