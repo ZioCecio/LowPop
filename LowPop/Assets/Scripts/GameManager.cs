@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -7,6 +8,8 @@ public class GameManager : MonoBehaviour {
     [SerializeField] private List<Button> buttons;
     [SerializeField] private GameObject cross;
     [SerializeField] private GameObject check;
+
+    public static GameManager Instance;
 
     private List<int> selectedButtons;
     private List<int> listOfNumbers;
@@ -17,26 +20,35 @@ public class GameManager : MonoBehaviour {
     private int numberOfButton;
     private int difficulty;
     private bool doNotTouch;
+    private bool exclamationMarkActive;
+
+    void Awake()
+    {
+        Instance = this;
+    }
 
 	void Start () {
         selectedButtons = new List<int>();
         listOfNumbers = new List<int>();
         range = 20;
-        difficulty = 0;
+        difficulty = 2;
         doNotTouch = false;
+        exclamationMarkActive = false;
 
         if (difficulty == 0)
         {
             rangeFirst = 0;
             rangeSecond = range;
         }
-        else if (difficulty == 1)
+        if (difficulty == 1)
         {
             rangeFirst = range * -1;
             rangeSecond = range;
         }
-        else
+        if(difficulty == 2)
         {
+            rangeFirst = range * -1;
+            rangeSecond = range;
             doNotTouch = true;
         }
 
@@ -65,6 +77,7 @@ public class GameManager : MonoBehaviour {
 
         selectedButtons.Clear();
         listOfNumbers.Clear();
+        exclamationMarkActive = false;
 
         while(selectedButtons.Count < howMuch)
         {
@@ -80,7 +93,17 @@ public class GameManager : MonoBehaviour {
                 while(listOfNumbers.Contains(x))
                     x = Random.Range(rangeFirst, rangeSecond);
 
-                buttons[num].GetComponentInChildren<Text>().text = "" + x;
+                int r = Random.Range(0, 2);
+
+                if (doNotTouch && selectedButtons.Count == howMuch - 1 && r == 0)
+                {
+                    x = range + 1;
+                    buttons[num].GetComponentInChildren<TextMeshProUGUI>().SetText("!");
+                    exclamationMarkActive = true;
+                }
+                else
+                    buttons[num].GetComponentInChildren<TextMeshProUGUI>().SetText("" + x);
+
                 listOfNumbers.Add(x);
             }
         }
@@ -90,7 +113,18 @@ public class GameManager : MonoBehaviour {
     {
         selectedButtons.Remove(whoClick);
         buttons[whoClick].gameObject.SetActive(false);
-        int n = System.Convert.ToInt32(buttons[whoClick].GetComponentInChildren<Text>().text);
+
+        if(buttons[whoClick].GetComponentInChildren<TextMeshProUGUI>().GetParsedText().ToCharArray()[0] == '!')
+        {
+            cross.gameObject.SetActive(true);
+            ClearInterface();
+            selectedButtons.Clear();
+            wrong = true;
+            listOfNumbers.Remove(range + 1);
+            return;
+        }
+
+        int n = System.Convert.ToInt32(buttons[whoClick].GetComponentInChildren<TextMeshProUGUI>().GetParsedText());
         if (!isLowerNumber(n))
         {
             cross.gameObject.SetActive(true);
@@ -103,6 +137,12 @@ public class GameManager : MonoBehaviour {
 
     private bool AllButtonsHaveBeenClicked()
     {
+        if (doNotTouch && exclamationMarkActive && listOfNumbers.Count == 1)
+        {
+            ClearInterface();
+            return true;
+        }
+
         if (selectedButtons.Count <= 0)
             return true;
         return false;
@@ -129,5 +169,11 @@ public class GameManager : MonoBehaviour {
         yield return new WaitForSeconds(.2f);
         cross.gameObject.SetActive(false);
         check.gameObject.SetActive(false);
+    }
+
+    public void Restart()
+    {
+        ClearInterface();
+        SelectButtons(numberOfButton);
     }
 }

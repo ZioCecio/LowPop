@@ -4,10 +4,17 @@ using UnityEngine.UI;
 public class Timer : MonoBehaviour {
     [SerializeField] private Image progressBar;
 
+    public static Timer Instance;
+
     private float maxTime;
     private float timeLeft;
 
     private bool stop;
+
+    void Awake()
+    {
+        Instance = this;
+    }
 
 	void Start () {
         maxTime = 30f;
@@ -30,7 +37,7 @@ public class Timer : MonoBehaviour {
 
     public void Reset()
     {
-        maxTime = 30f;
+        timeLeft = maxTime;
         stop = false;
     }
 
