@@ -10,6 +10,7 @@ public class Timer : MonoBehaviour {
     private float timeLeft;
 
     private bool stop;
+    private bool finish;
 
     void Awake()
     {
@@ -20,6 +21,7 @@ public class Timer : MonoBehaviour {
         maxTime = 30f;
         timeLeft = maxTime;
         stop = false;
+        finish = false;
 	}
 	
 	void Update () {
@@ -32,13 +34,17 @@ public class Timer : MonoBehaviour {
             progressBar.fillAmount -= 1.0f / maxTime * Time.deltaTime;
         }
         else
+        {
             Stop();
+            finish = true;
+        }
 	}
 
     public void Reset()
     {
         timeLeft = maxTime;
         stop = false;
+        finish = false;
     }
 
     public void Stop()
@@ -54,5 +60,15 @@ public class Timer : MonoBehaviour {
     public bool IsStopped()
     {
         return stop;
+    }
+
+    public bool IsFinished()
+    {
+        return finish;
+    }
+
+    public void ResetBar()
+    {
+        progressBar.fillAmount = 1;
     }
 }

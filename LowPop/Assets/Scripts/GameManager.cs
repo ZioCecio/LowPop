@@ -62,7 +62,7 @@ public class GameManager : MonoBehaviour {
 	
 	void Update () {
 
-        if (Timer.Instance.IsStopped())
+        if (Timer.Instance.IsFinished())
         {
             gameOverText.SetText("Your score is " + ScoreUI.Instance.GetScore() + " points.");
             gameOver.gameObject.SetActive(true);
