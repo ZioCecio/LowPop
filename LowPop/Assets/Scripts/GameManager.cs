@@ -75,7 +75,7 @@ public class GameManager : MonoBehaviour {
         if (!wrong)
         {
             check.gameObject.SetActive(true);
-            ScoreUI.Instance.IncrementScore(1);
+            ScoreUI.Instance.IncrementScore(numberOfButton);
         }
         wrong = false;
         StartCoroutine(Wait());
