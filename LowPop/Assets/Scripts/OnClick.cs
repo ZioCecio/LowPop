@@ -5,6 +5,9 @@ public class OnClick : MonoBehaviour {
 
 	void OnMouseDown()
     {
+        if (GameManager.Instance.GameIsFinished())
+            return;
+
         pausePanel.gameObject.SetActive(true);
         Timer.Instance.Stop();
     }

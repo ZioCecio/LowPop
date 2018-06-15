@@ -23,6 +23,7 @@ public class GameManager : MonoBehaviour {
     private int difficulty;
     private bool doNotTouch;
     private bool exclamationMarkActive;
+    private bool stop;
 
     void Awake()
     {
@@ -36,6 +37,7 @@ public class GameManager : MonoBehaviour {
         difficulty = LevelManager.Instance.difficulty;
         doNotTouch = false;
         exclamationMarkActive = false;
+        stop = false;
 
         if (difficulty == 0)
         {
@@ -64,6 +66,7 @@ public class GameManager : MonoBehaviour {
 
         if (Timer.Instance.IsFinished())
         {
+            stop = true;
             gameOverText.SetText("Your score is " + ScoreUI.Instance.GetScore() + " points.");
             gameOver.gameObject.SetActive(true);
         }
@@ -100,7 +103,7 @@ public class GameManager : MonoBehaviour {
                 buttons[num].GetComponent<SpriteRenderer>().color = new Color(Random.Range(0f, 1f), Random.Range(0f, 1f), Random.Range(0f, 1f));
                 x = Random.Range(rangeFirst, rangeSecond);
 
-                while(listOfNumbers.Contains(x))
+                while(listOfNumbers.Contains(x) || ContainsSeven(x))
                     x = Random.Range(rangeFirst, rangeSecond);
 
                 int r = Random.Range(0, 2);
@@ -121,6 +124,9 @@ public class GameManager : MonoBehaviour {
 
     public void Click(int whoClick)
     {
+        if (stop)
+            return;
+
         selectedButtons.Remove(whoClick);
         buttons[whoClick].gameObject.SetActive(false);
 
@@ -185,5 +191,18 @@ public class GameManager : MonoBehaviour {
     {
         ClearInterface();
         SelectButtons(numberOfButton);
+    }
+
+    private bool ContainsSeven(int num)
+    {
+        string s = "" + num;
+        if (s.Contains("7"))
+            return true;
+        return false;
+    }
+
+    public bool GameIsFinished()
+    {
+        return stop;
     }
 }
