@@ -10,5 +10,7 @@ public class OnClick : MonoBehaviour {
 
         pausePanel.gameObject.SetActive(true);
         Timer.Instance.Stop();
+        Stopwatch.Instance.Stop();
+        GameManager.Instance.FinishGame();
     }
 }

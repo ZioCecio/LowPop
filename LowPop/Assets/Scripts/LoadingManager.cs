@@ -55,7 +55,19 @@ public class LoadingManager : MonoBehaviour {
             g.gameObject.SetActive(true);
 
         stop = true;
-        Timer.Instance.ResetBar();
-        Timer.Instance.Reset();
+
+        if (GameManager.Instance.MOD == 0)
+        {
+            Stopwatch.Instance.Stop();
+            Timer.Instance.ResetBar();
+            Timer.Instance.Reset();
+        }
+
+        if(GameManager.Instance.MOD == 1)
+        {
+            Timer.Instance.Stop();
+            Stopwatch.Instance.ResetBar();
+            Stopwatch.Instance.Reset();
+        }
     }
 }

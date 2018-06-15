@@ -13,6 +13,8 @@ public class GameManager : MonoBehaviour {
 
     public static GameManager Instance;
 
+    public int MOD;
+
     private List<int> selectedButtons;
     private List<int> listOfNumbers;
     private int range;
@@ -38,6 +40,20 @@ public class GameManager : MonoBehaviour {
         doNotTouch = false;
         exclamationMarkActive = false;
         stop = false;
+        MOD = LevelManager.Instance.MOD;
+
+        if (MOD == 0)
+        {
+            Stopwatch.Instance.Stop();
+            Timer.Instance.Reset();
+            Timer.Instance.ResetBar();
+        }
+        if (MOD == 1)
+        {
+            Timer.Instance.Stop();
+            Stopwatch.Instance.Reset();
+            Stopwatch.Instance.ResetBar();
+        }
 
         if (difficulty == 0)
         {
@@ -68,6 +84,13 @@ public class GameManager : MonoBehaviour {
         {
             stop = true;
             gameOverText.SetText("Your score is " + ScoreUI.Instance.GetScore() + " points.");
+            gameOver.gameObject.SetActive(true);
+        }
+
+        if(Stopwatch.Instance.IsFinished())
+        {
+            stop = true;
+            gameOverText.SetText("Your score is " + Stopwatch.Instance.GetTimeTotal());
             gameOver.gameObject.SetActive(true);
         }
 
@@ -204,5 +227,10 @@ public class GameManager : MonoBehaviour {
     public bool GameIsFinished()
     {
         return stop;
+    }
+
+    public void FinishGame()
+    {
+        stop = true;
     }
 }
