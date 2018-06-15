@@ -3,14 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class MoveImageRandom : MonoBehaviour {
-    private int x;
-    private int y;
+    private float x;
+    private float y;
     private float time;
 
     void Start()
     {
-        x = Random.Range(2, 5);
-        y = Random.Range(2, 5);
+        x = Random.Range(2f, 5f);
+        y = Random.Range(2f, 5f);
         time = 10f;
 
         if (transform.position.y > 0)

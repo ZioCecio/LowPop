@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour {
-    [SerializeField] private List<Button> buttons;
+    [SerializeField] private List<GameObject> buttons;
     [SerializeField] private GameObject cross;
     [SerializeField] private GameObject check;
     [SerializeField] private GameObject gameOver;
@@ -97,7 +97,7 @@ public class GameManager : MonoBehaviour {
             {
                 selectedButtons.Add(num);
                 buttons[num].gameObject.SetActive(true);
-                buttons[num].GetComponent<Image>().color = new Color(Random.Range(0f, 1f), Random.Range(0f, 1f), Random.Range(0f, 1f));
+                buttons[num].GetComponent<SpriteRenderer>().color = new Color(Random.Range(0f, 1f), Random.Range(0f, 1f), Random.Range(0f, 1f));
                 x = Random.Range(rangeFirst, rangeSecond);
 
                 while(listOfNumbers.Contains(x))

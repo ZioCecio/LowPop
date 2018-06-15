@@ -58,6 +58,7 @@
      <Compile Include="Assets\Scripts\MoveImage.cs" />
      <Compile Include="Assets\Scripts\MoveImageRandom.cs" />
      <Compile Include="Assets\Scripts\OnClick.cs" />
+     <Compile Include="Assets\Scripts\OnClickHexagon.cs" />
      <Compile Include="Assets\Scripts\SceneChanger.cs" />
      <Compile Include="Assets\Scripts\ScoreUI.cs" />
      <Compile Include="Assets\Scripts\Spawner.cs" />

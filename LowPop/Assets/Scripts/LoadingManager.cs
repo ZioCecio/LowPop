@@ -16,7 +16,7 @@ public class LoadingManager : MonoBehaviour {
     private bool change2;
 
 	void Start () {
-        time = 3f;
+        time = 4f;
         loadingHexagon.GetComponent<Image>().color = new Color(Random.Range(0f, 1f), Random.Range(0f, 1f), Random.Range(0f, 1f));
         text.SetText("3");
         stop = false;
@@ -31,18 +31,18 @@ public class LoadingManager : MonoBehaviour {
         time -= Time.deltaTime;
         text.SetText("" + (int)time);
 
-        if ((int)time == 2 && !change1)
+        if (time <= 3 && !change1)
         {
             loadingHexagon.GetComponent<Image>().color = new Color(Random.Range(0f, 1f), Random.Range(0f, 1f), Random.Range(0f, 1f));
             change1 = true;
         }
-        if ((int)time == 1 && !change2)
+        if (time <= 2 && !change2)
         {
             loadingHexagon.GetComponent<Image>().color = new Color(Random.Range(0f, 1f), Random.Range(0f, 1f), Random.Range(0f, 1f));
             change2 = true;
         }
 
-        if (time <= 0)
+        if (time <= 1)
             Play();
 	}
 
